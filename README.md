@@ -19,6 +19,8 @@ Dependency packages below are needed to run scasa:
 
 ##### (4) [__R__](https://www.r-project.org)
 
+##### (5) [__BBMap__](https://github.com/BioInfoTools/BBMap)
+
 After depency packages are installed:
 
 1. Download scasa folder from our Github repository  [__scasa__](https://github.com/eudoraleer/scasa) and do the following:
