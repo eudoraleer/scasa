@@ -53,4 +53,6 @@ After installation, test out scasa by typing  `scasa --help`  in the terminal to
 
         cd <Test_Dataset directory>
         
-        scasa  --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq --ref <hg38_ref_file_path>  --nthreads 4
+        scasa  --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq --ref <hg38_ref_file_path>  --whitelist <test_dataset_whitelist_path> --nthreads 4
+
+
