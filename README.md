@@ -47,7 +47,7 @@ After installation, test out scasa by typing  `scasa --help`  in the terminal to
 
 2. Download the following files:
 
-[__Hg38 reference: hg38 refMrna__](http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz)
+    [__Hg38 reference: hg38 refMrna__](http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz)
 
 2. Enter the following command to kick start the analysis:
 
