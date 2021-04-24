@@ -13,7 +13,7 @@ Dependency packages below are needed to run scasa:
 
 #####  (1) [__Kallisto__](https://pachterlab.github.io/kallisto/download)
 
-##### (2) [__Salmon__](https://github.com/COMBINE-lab/salmon)
+##### (2) [__Alevin__](https://salmon.readthedocs.io/en/latest/alevin.html)
 
 ##### (3) [__Bustools__](https://bustools.github.io/download)
 
@@ -27,19 +27,11 @@ After depency packages are installed:
 
         git clone https://github.com/scasa/
 
-2. Navigate to the scasa directory
-
-        cd scasa
-
-3. Move [__scasa__] executable file into bin:
-
-        mv /usr/local/bin/
-
-    If /usr/local/bin/ is not accessible, alternatively, you can add the current scasa directory to environment variables PATH:
+2. Add __scasa__ folder to environment variables PATH:
 
         echo PATH="<scasa directory>:$PATH"
         
-4. Now you are ready to use scasa!
+3. Now you are ready to use scasa!
 
 ## Quick tutorial on scasa
 
