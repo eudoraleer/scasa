@@ -25,7 +25,7 @@ After depency packages are installed:
 
 2. Add __scasa__ folder to environment variables PATH:
 
-        echo PATH="<scasa directory>:$PATH"
+        PATH=<scasa directory>:$PATH
         
 3. Now you are ready to use scasa!
 
