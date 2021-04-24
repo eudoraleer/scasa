@@ -41,7 +41,7 @@ After installation, test out scasa by typing  `scasa --help`  in the terminal to
 
 2. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 
-        cd <Test_Dataset directory>
+        cd <Test_Dataset_directory>
         
         scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
               --ref <hg38_ref_file_path>  \
