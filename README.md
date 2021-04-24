@@ -9,17 +9,13 @@ __scasa__ is a single cell transcript quantification software designed for singl
 
 Scasa only has Linux version at the moment. To install, download the scasa folder from the. The software is already compiled for Linux and installation time needed is less than two minutes.
 
-Dependency packages below are needed to run scasa:
+Dependency packages below are needed to run the quick tutorial below for scasa:
 
-#####  (1) [__Kallisto__](https://pachterlab.github.io/kallisto/download)
+##### (1) [__Alevin__](https://salmon.readthedocs.io/en/latest/alevin.html)
 
-##### (2) [__Salmon__](https://github.com/COMBINE-lab/salmon)
+##### (2) [__R__](https://www.r-project.org)
 
-##### (3) [__Bustools__](https://bustools.github.io/download)
-
-##### (4) [__R__](https://www.r-project.org)
-
-##### (5) [__BBMap__](https://github.com/BioInfoTools/BBMap)
+##### (3) [__BBMap__](https://github.com/BioInfoTools/BBMap)
 
 After depency packages are installed:
 
@@ -27,19 +23,11 @@ After depency packages are installed:
 
         git clone https://github.com/scasa/
 
-2. Navigate to the scasa directory
-
-        cd scasa
-
-3. Move [__scasa__] executable file into bin:
-
-        mv /usr/local/bin/
-
-    If /usr/local/bin/ is not accessible, alternatively, you can add the current scasa directory to environment variables PATH:
+2. Add __scasa__ folder to environment variables PATH:
 
         echo PATH="<scasa directory>:$PATH"
         
-4. Now you are ready to use scasa!
+3. Now you are ready to use scasa!
 
 ## Quick tutorial on scasa
 
@@ -51,7 +39,7 @@ After installation, test out scasa by typing  `scasa --help`  in the terminal to
 
     [__Hg38 reference: hg38 refMrna__](http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz)
 
-2. Enter the following command to kick start the analysis:
+2. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 
         cd <Test_Dataset directory>
         
