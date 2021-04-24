@@ -9,17 +9,13 @@ __scasa__ is a single cell transcript quantification software designed for singl
 
 Scasa only has Linux version at the moment. To install, download the scasa folder from the. The software is already compiled for Linux and installation time needed is less than two minutes.
 
-Dependency packages below are needed to run scasa:
+Dependency packages below are needed to run the quick tutorial below for scasa:
 
-#####  (1) [__Kallisto__](https://pachterlab.github.io/kallisto/download)
+##### (1) [__Alevin__](https://salmon.readthedocs.io/en/latest/alevin.html)
 
-##### (2) [__Alevin__](https://salmon.readthedocs.io/en/latest/alevin.html)
+##### (2) [__R__](https://www.r-project.org)
 
-##### (3) [__Bustools__](https://bustools.github.io/download)
-
-##### (4) [__R__](https://www.r-project.org)
-
-##### (5) [__BBMap__](https://github.com/BioInfoTools/BBMap)
+##### (3) [__BBMap__](https://github.com/BioInfoTools/BBMap)
 
 After depency packages are installed:
 
