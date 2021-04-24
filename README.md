@@ -39,7 +39,7 @@ After installation, test out scasa by typing  `scasa --help`  in the terminal to
 
     [__Hg38 reference: hg38 refMrna__](http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz)
 
-2. Enter the following command to kick start the analysis:
+2. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 
         cd <Test_Dataset directory>
         
