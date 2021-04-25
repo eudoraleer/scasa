@@ -40,7 +40,7 @@ wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
 tar xvzf Test_Dataset.tar.gz              
 ```
 
-2. Download the cDNA fasta of [__hg38: refMrna__](http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz)
+2. Download the cDNA fasta of [__hg38: refMrna__](http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/)
 ```sh
 wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
 ```
