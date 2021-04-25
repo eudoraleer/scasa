@@ -21,7 +21,7 @@ After depency packages are installed:
 
 1. Download scasa folder from our Github repository  [__scasa__](https://github.com/eudoraleer/scasa) and do the following:
 
-        git clone https://github.com/scasa/
+        git clone https://github.com/eudoraleer/scasa
 
 2. Add __scasa__ folder to environment variables PATH:
 
