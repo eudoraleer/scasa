@@ -56,7 +56,7 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ```
 
 
-### Example of using scasa for the test dataset
+### Example of scripts to install and run scasa for the test dataset
 
 ```sh
 #download scasa
