@@ -34,7 +34,10 @@ After depency packages are installed:
 After installation, test out scasa by typing  `scasa --help`  in the terminal to see a list of available commands. To see a list of detailed options on scasa, visit our [__wiki__](https://github.com/eudoraleer/scasa/wiki) page.
 
 1. Download our [__Test_Dataset__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) and unzip it:
-        `tar xvzf Test_Dataset.tar.gz`               
+
+        wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
+        
+        tar xvzf Test_Dataset.tar.gz              
 
 2. Download the following files:
 
