@@ -25,7 +25,7 @@ After depency packages are installed:
 
 2. Add __scasa__ folder to environment variables PATH:
 
-        PATH=<scasa directory>:$PATH
+        export PATH=$PWD/scasa/scasa:$PATH
         
 3. Now you are ready to use scasa!
 
