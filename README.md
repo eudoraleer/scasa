@@ -71,20 +71,22 @@ tar -xzvf salmon-1.4.0_linux_x86_64.tar.gz
 export PATH=$PWD/salmon-latest_linux_x86_64/bin:$PATH
 export LD_LIBRARY_PATH=$PWD/salmon-latest_linux_x86_64/lib:$LD_LIBRARY_PATH
 
-# 3. Download test input files:
+# 3. Download UCSC hg38 cDNA fasta reference:
+mkdir Annotation
+cd Annotation
+wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
+refPath=$PWD/refMrna.fa.gz
+
+# 4. Download test input files:
 
 wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
 tar xvzf Test_Dataset.tar.gz
 cd Test_Dataset
 
-# 4. Download UCSC hg38 cDNA fasta reference:
-
-wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
-
 # 5. Run scasa:
 
 scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
-      --ref refMrna.fa.gz \
+      --ref $refPath \
       --whitelist Sample_01_Whitelist.txt \
       --nthreads 4 \
       --out Scasa_out
