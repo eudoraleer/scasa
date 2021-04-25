@@ -53,10 +53,14 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
       --whitelist <test_dataset_whitelist_path> \
       --nthreads 4
 ```
-
+4. The expression output file can be found in the following output directory:
+```sh
+cd <scasa_project_folder>
+cd 2QUANT/<each_sample_quantification_output_directory>/
+```
 
 ### A Full Script to Run Scasa -- An Example
-```Commandline in Linux:
+```sh
 
 # 1. Download scasa:
 
