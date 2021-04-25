@@ -21,11 +21,11 @@ After depency packages are installed:
 
 1. Download scasa folder from our Github repository  [__scasa__](https://github.com/eudoraleer/scasa) and do the following:
 
-        git clone https://github.com/scasa/
+        git clone https://github.com/eudoraleer/scasa
 
 2. Add __scasa__ folder to environment variables PATH:
 
-        echo PATH="<scasa directory>:$PATH"
+        export PATH=$PWD/scasa/scasa:$PATH
         
 3. Now you are ready to use scasa!
 
@@ -33,7 +33,11 @@ After depency packages are installed:
 
 After installation, test out scasa by typing  `scasa --help`  in the terminal to see a list of available commands. To see a list of detailed options on scasa, visit our [__wiki__](https://github.com/eudoraleer/scasa/wiki) page.
 
-1. Download our provided [__Test_Dataset__](https://github.com/eudoraleer/scasa/tree/main/Test_Dataset) from our Github repository (if you have downloaded you can skip this step).
+1. Download our [__Test_Dataset__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) and unzip it:
+
+        wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
+        
+        tar xvzf Test_Dataset.tar.gz              
 
 2. Download the following files:
 
@@ -41,7 +45,7 @@ After installation, test out scasa by typing  `scasa --help`  in the terminal to
 
 2. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 
-        cd <Test_Dataset directory>
+        cd <Test_Dataset_directory>
         
         scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
               --ref <hg38_ref_file_path>  \
