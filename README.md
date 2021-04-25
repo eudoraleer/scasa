@@ -76,8 +76,7 @@ mkdir Annotation
 cd Annotation
 wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
 refPath=$PWD/refMrna.fa.gz
-
-# 4. Download test input files:
+cd ..
 
 wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
 tar xvzf Test_Dataset.tar.gz
