@@ -112,7 +112,9 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
       --whitelist Sample_01_Whitelist.txt \
       --nthreads 4 \
       --out Scasa_out
-
-#done
+      
+##################################################################
+# DONE!
+##################################################################
 
 ```
