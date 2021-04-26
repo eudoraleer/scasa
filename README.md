@@ -53,13 +53,24 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
       --whitelist <test_dataset_whitelist_path> \
       --nthreads 4
 ```
-4. The expression output file can be found in the following output directory:
+4. After completed your analysis with scasa, you will see that scasa has generated a project output directory with name <SCASA_project_name_timestamp> with the following sub-directories:
+
+        <SCASA_project_name_timestamp>/
+        ├── LOG/
+        ├── 0PRESETS/
+        ├── 1ALIGN/
+        └── 2QUANT/
+            ├──<sample_1_quantification_output>
+            │   └──scasa_isoform_expression.txt
+            │   └──scasa_gene_expression.txt
+            └──..
+
+5. Isoform and gene expression output can be found under the `2QUANT/` directory in the output folder:
 ```sh
-cd <scasa_project_folder>
-cd 2QUANT/<each_sample_quantification_output_directory>/
+cd <SCASA_project_name_timestamp>/2QUANT/<sample_1_quantification_output>/
 ```
 
-### A Full Script to Run Scasa -- An Example
+### A Full Script to Run Scasa Tutorial: An Example
 ```sh
 
 # 1. Download scasa:
