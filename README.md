@@ -69,8 +69,9 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ```sh
 cd <SCASA_project_name_timestamp>/2QUANT/<sample_1_quantification_output>/
 ```
+Now that you have learnt how to run scasa!
 
-### A Full Script to Run Scasa Tutorial: An Example
+### A Quick Example:
 ```sh
 
 # 1. Download scasa:
