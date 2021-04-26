@@ -41,7 +41,7 @@ load(design.matrix)
 workdir=getwd()#get full path
 
 if(!dir.exists("Ycount")) dir.create("Ycount", recursive = T)
-setwd(paste(workdir,"/Ycount",sep=""))
+setwd(paste(workdir,"/Ycount/",sep=""))
 
 packages <- c("data.table","foreach","doParallel")
 
@@ -164,6 +164,7 @@ colnames(isoform_count)=cnames
 rownames(isoform_count)=rnames
 isoform_count=isoform_count[order(rownames(isoform_count)),]
 isoform_count=t(isoform_count)
-save(isoform_count,file=paste(workdir,"/isoform_expression.RData",sep = ""))
+isoform_count <- isoform_count[which(rowSums(isoform_count) > 0),]
+save(isoform_count,file=paste(workdir,"/scasa_isoform_expression.RData",sep = ""))
 write.table(isoform_count, paste(workdir,"/scasa_isoform_expression.txt",sep = ""), quote = F, row.names = T, sep = "\t")
-cat("\n estimate isoform expression : done!")
+cat("\n Estimate isoform expression : done!")
