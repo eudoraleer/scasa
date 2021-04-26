@@ -11,7 +11,7 @@ packages <- c("data.table")
 
 if(!all(packages%in% rownames(installed.packages()))){
   needed <- packages[which(!packages %in% rownames(installed.packages()))]
-  lapply(needed, install.packages)
+  lapply(needed, install.packages, repos = "https://cran.r-project.org")
 }
 
 library("data.table")

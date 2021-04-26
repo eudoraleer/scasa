@@ -1189,6 +1189,12 @@ estim_chunk2 <- function(flist,DM0,maxiter.X=1000,maxerr=0.01,lim=0.01,maxiter.b
 #  lim=0.01
 #  maxiter.bt=1000
 #  modify=TRUE
+  packages <- c("data.table")
+  
+  if(!all(packages%in% rownames(installed.packages()))){
+    needed <- packages[which(!packages %in% rownames(installed.packages()))]
+    lapply(needed, install.packages, repos = "https://cran.r-project.org")
+  }
   library("data.table")
 
   Yfull=list()
