@@ -118,3 +118,57 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ##################################################################
 
 ```
+### Example of isoform quantification with Scasa for the CITE-seq RNA samples of [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319):
+```sh
+##################################################################
+# 1. Download scasa:
+##################################################################
+wget https://github.com/eudoraleer/scasa/releases/download/scasa.v1.0.0/scasa_v1.0.0.tar.gz
+tar -xzvf scasa_v1.0.0.tar.gz
+export PATH=$PWD/scasa:$PATH
+
+##################################################################
+# 2. Download salmon alevin:
+##################################################################
+wget https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmon-1.4.0_linux_x86_64.tar.gz
+tar -xzvf salmon-1.4.0_linux_x86_64.tar.gz
+export PATH=$PWD/salmon-latest_linux_x86_64/bin:$PATH
+export LD_LIBRARY_PATH=$PWD/salmon-latest_linux_x86_64/lib:$LD_LIBRARY_PATH
+
+##################################################################
+# 3. Download UCSC hg38 cDNA fasta reference:
+##################################################################
+mkdir Annotation
+cd Annotation
+wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
+refPath=$PWD/refMrna.fa.gz
+cd ..
+
+##################################################################
+# 4. Download test dataset:
+##################################################################
+
+mkdir CiteSeqData
+InputDir=$PWD/CiteSeqData
+cd CiteSeqData
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR875/003/SRR8758323/SRR8758323_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR875/003/SRR8758323/SRR8758323_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR875/004/SRR8758324/SRR8758324_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR875/004/SRR8758324/SRR8758324_2.fastq.gz
+cat SRR8758323_1.fastq.gz SRR8758324_1.fastq.gz > HBMC_Stuart2019_RNA_L001_R1_001.fastq.gz
+cat SRR8758323_2.fastq.gz SRR8758324_2.fastq.gz > HBMC_Stuart2019_RNA_L001_R2_001.fastq.gz
+rm SRR8758323_1.fastq.gz SRR8758323_2.fastq.gz SRR8758324_1.fastq.gz SRR8758324_2.fastq.gz
+
+##################################################################
+# 5. Run scasa:
+##################################################################
+
+threadNum=16
+scasa --in $InputDir --fastq HBMC_Stuart2019_RNA_L001_R1_001.fastq.gz,HBMC_Stuart2019_RNA_L001_R2_001.fastq.gz --ref $refPath --cellthreshold 35000 --tech 10xv2 --nthreads $threadNum --out Scasa_out
+
+#################################################################
+# DONE!
+##################################################################
+
+```
+
