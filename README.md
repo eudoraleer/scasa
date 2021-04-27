@@ -3,7 +3,7 @@
 # scasa
 Single cell transcript quantification tool
 
-__scasa__ is a single cell transcript quantification software designed for single cell RNA-Sequencing data. The software comprises pseudo-alignment to quantification steps. See the [__scasa &#124; wiki__](https://github.com/eudoraleer/scasa/wiki) for more details on __scasa__.
+__Scasa__ is a single cell transcript quantification software designed for single cell RNA-Sequencing data. The software comprises pseudo-alignment to quantification steps. See the [__scasa &#124; wiki__](https://github.com/eudoraleer/scasa/wiki) for more details on __scasa__.
 
 ## Installation
 
