@@ -118,7 +118,7 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ##################################################################
 
 ```
-### Another Example with [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset:
+### Real Sample Example on [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset:
 ```sh
 ##################################################################
 # 1. Download scasa:
