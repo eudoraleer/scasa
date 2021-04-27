@@ -17,7 +17,7 @@ Dependency packages below are needed to run the quick tutorial below for scasa:
 
 After dependency packages are installed:
 
-1. Download scasa from our Github scasa release  [__scasa__](https://github.com/eudoraleer/scasa/releases/tag/scasa.v1.0.0) and do the following:
+1. Download scasa from our Github scasa release  [__scasa__](https://github.com/eudoraleer/scasa/releases/tag/scasa.v1.0.0) and untar the downloaded file:
 ```sh
 wget https://github.com/eudoraleer/scasa/releases/download/scasa.v1.0.0/scasa_v1.0.0.tar.gz
 tar -xzvf scasa_v1.0.0.tar.gz
