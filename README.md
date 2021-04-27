@@ -145,7 +145,7 @@ refPath=$PWD/refMrna.fa.gz
 cd ..
 
 ##################################################################
-# 4. Download test dataset:
+# 4. Download the CITE-seq RNA samples:
 ##################################################################
 
 mkdir CiteSeqData
