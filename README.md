@@ -53,7 +53,7 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
       --whitelist <test_dataset_whitelist_path> \
       --nthreads 4
 ```
-4. After completed your analysis with scasa, you will see that scasa has generated a project output directory with name `<SCASA_project_name_timestamp>` with the following sub-directories:
+4. After you have completed your analysis with scasa, you will see that scasa has generated a project output directory with name `<SCASA_project_name_timestamp>` with the following sub-directories:
 
         <SCASA_project_name_timestamp>/
         ├── LOG/
