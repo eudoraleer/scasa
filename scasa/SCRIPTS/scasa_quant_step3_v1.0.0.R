@@ -13,13 +13,13 @@ cat("\nList of arguments: ",args,"\n")
 
 for (i in 1:length(args)){
   res=unlist(strsplit(args[i],"="))
-  if (res[1]=="in") workdir=as.character(res[2])
-  if (res[1]=="txgroup") txgrpFn=as.character(res[2])
+  if (res[1]=="workdir") workdir=as.character(res[2])
+  if (res[1]=="txgroup") txgroup=as.character(res[2])
 }
 
 isoFn = paste(workdir,"/scasa_isoform_expression.RData",sep = "")
 load(isoFn)
-load(txgrpFn)
+load(txgroup)
 
 parasum = function(tx, count_isoform) {
      ncell = ncol(count_isoform)
@@ -49,5 +49,5 @@ gene_count=scasa_genemat(isoform_count,genes.tx.map.all.final)
 
 save(gene_count,file=paste(workdir,"/scasa_gene_expression.RData", sep = ""))
 write.table(gene_count, paste(workdir,"/scasa_gene_expression.txt",sep = ""), quote = F, row.names = T, sep = "\t")
-cat("\n Estimate gene expression : done!")
+print("Estimate gene expression : done!")
 
