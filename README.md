@@ -71,7 +71,7 @@ cd <SCASA_project_name_timestamp>/2QUANT/<sample_1_quantification_output>/
 ```
 Now that you have learnt how to run scasa!
 
-### A Quick Example on Simulated Dataset:
+### A Quick Example on A Small Simulated Dataset:
 ```sh
 ##################################################################
 # 1. Download scasa:
