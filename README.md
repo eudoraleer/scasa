@@ -7,7 +7,7 @@ __scasa__ is a single cell transcript quantification software designed for singl
 
 ## Installation
 
-Scasa only has Linux version at the moment. To install, download the scasa folder from the. The software is already compiled for Linux and installation time needed is less than two minutes.
+Scasa only has Linux version at the moment. The software is already compiled for Linux and installation time needed is less than two minutes. Please follow the instructions below to install scasa:
 
 Dependency packages below are needed to run the quick tutorial below for scasa:
 
