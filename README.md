@@ -71,7 +71,7 @@ cd <SCASA_project_name_timestamp>/2QUANT/<sample_1_quantification_output>/
 ```
 Now that you have learnt how to run scasa!
 
-### A Quick Example:
+### A Quick Example on Simulated Dataset:
 ```sh
 ##################################################################
 # 1. Download scasa:
@@ -118,7 +118,7 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ##################################################################
 
 ```
-### Example of isoform quantification with Scasa for the CITE-seq RNA samples of [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319):
+### Another Example with [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset:
 ```sh
 ##################################################################
 # 1. Download scasa:
