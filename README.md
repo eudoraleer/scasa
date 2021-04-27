@@ -110,7 +110,7 @@ cd Test_Dataset
 scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
       --ref $refPath \
       --whitelist Sample_01_Whitelist.txt \
-      --nthreads 4 \
+      --nthreads 2 \
       --out Scasa_out
       
 ##################################################################
