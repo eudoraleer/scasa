@@ -78,7 +78,7 @@ Now that you have learnt how to run scasa!
 
 On Linux CentOs 7, we tested from thread number 1 to 64 for both [__small simulated dataset__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) (__200 cells, dataset from Step 1, Quick tutorial on scasa__) and for a __larger simulated dataset (3955 cells)__ and below are the runtime information for both simulated datasets in terms of seconds:
 
-<img alt="scasa runtime" src="https://github.com/eudoraleer/scasa/blob/main/doc/SCASA_QUANTIFICATION_RUN_TIME.png">
+<img alt="scasa runtime" src="https://github.com/eudoraleer/scasa/blob/main/doc/SCASA_QUANTIFICATION_RUN_TIME_SECONDS.png">
 
 
 ## A Quick Example on The Small Simulated Dataset (200 Cells)
