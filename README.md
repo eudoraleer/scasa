@@ -1,6 +1,7 @@
 <img alt="scasa logo" src="https://github.com/eudoraleer/scasa/blob/main/doc/SCASA_LOGO.png">
 
-# scasa
+# Scasa
+
 Single cell transcript quantification tool
 
 __Scasa__ is a single cell transcript quantification tool tailored for single cell RNA-Sequencing data. The software comprises pseudo-alignment to quantification steps. See the [__scasa &#124; wiki__](https://github.com/eudoraleer/scasa/wiki) for more details on __scasa__.
@@ -32,11 +33,11 @@ export PATH=$PWD/scasa:$PATH
 
 3. Now you are ready to use scasa!
 
-## Quick tutorial on scasa
+## Quick Tutorial on Scasa
 
 After installation, test out scasa by typing  `scasa --help`  in the terminal to see a list of available commands. To see a list of detailed options on scasa, visit our [__wiki__](https://github.com/eudoraleer/scasa/wiki) page.
 
-1. Download our [__Test_Dataset__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) and unzip it:
+1. Download our [__Test_Dataset (200 cells)__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) and unzip it:
 ```sh
 wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
 tar xvzf Test_Dataset.tar.gz              
@@ -73,7 +74,15 @@ cd <SCASA_project_name_timestamp>/2QUANT/<sample_1_quantification_output>/
 ```
 Now that you have learnt how to run scasa!
 
-### A Quick Example on A Small Simulated Dataset:
+## Scasa Quantification Run Time
+
+On Linux CentOs 7, we tested from thread number 1 to 64 for both [__small simulated dataset__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) (__200 cells, dataset from Step 1, Quick tutorial on scasa__) and for a __larger simulated dataset (3955 cells)__ and below are the runtime information for both simulated datasets in terms of seconds:
+
+<img alt="scasa runtime" src="https://github.com/eudoraleer/scasa/blob/main/doc/SCASA_QUANTIFICATION_RUN_TIME.png">
+
+
+## A Quick Example on The Small Simulated Dataset (200 Cells)
+### (Dataset from __Step 1, Quick Tutorial on Scasa__)
 ```sh
 ##################################################################
 # 1. Download scasa:
@@ -120,7 +129,8 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ##################################################################
 
 ```
-### Real Sample Example on [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset:
+## Real Sample Example on [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset
+
 ```sh
 ##################################################################
 # 1. Download scasa:
