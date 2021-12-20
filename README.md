@@ -101,7 +101,7 @@ export LD_LIBRARY_PATH=$PWD/salmon-latest_linux_x86_64/lib:$LD_LIBRARY_PATH
 ##################################################################
 mkdir Annotation
 cd Annotation
-wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
+wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz?dl=1
 refPath=$PWD/refMrna.fa.gz
 cd ..
 
@@ -149,7 +149,7 @@ export LD_LIBRARY_PATH=$PWD/salmon-latest_linux_x86_64/lib:$LD_LIBRARY_PATH
 ##################################################################
 mkdir Annotation
 cd Annotation
-wget http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/refMrna.fa.gz
+wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz?dl=1
 refPath=$PWD/refMrna.fa.gz
 cd ..
 
