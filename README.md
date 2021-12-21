@@ -43,7 +43,7 @@ wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
 tar xvzf Test_Dataset.tar.gz              
 ```
 
-2. Download the cDNA fasta of [__hg38: refMrna__](https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz?dl=1)
+2. Download the cDNA fasta of [__hg38: refMrna__](https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz)
 
 3. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 ```sh
@@ -101,7 +101,7 @@ export LD_LIBRARY_PATH=$PWD/salmon-latest_linux_x86_64/lib:$LD_LIBRARY_PATH
 ##################################################################
 mkdir Annotation
 cd Annotation
-wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz?dl=1
+wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz
 refPath=$PWD/refMrna.fa.gz
 cd ..
 
@@ -149,7 +149,7 @@ export LD_LIBRARY_PATH=$PWD/salmon-latest_linux_x86_64/lib:$LD_LIBRARY_PATH
 ##################################################################
 mkdir Annotation
 cd Annotation
-wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz?dl=1
+wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz
 refPath=$PWD/refMrna.fa.gz
 cd ..
 
