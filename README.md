@@ -8,7 +8,7 @@ __Scasa__ is a single cell transcript quantification tool tailored for single ce
 
 ##### (Datasets and codes to reproduce the results in the __scasa__ study could be view from Scasa Paper GitHub Page: [__Scasa_Paper__](https://github.com/eudoraleer/Scasa_Paper))
 
-If you are using Scasa in your research, you can cite us with the following paper:
+If you are using Scasa in your research, please cite:
 
 Lu Pan, Huy Q Dinh, Yudi Pawitan, Trung Nghia Vu, Isoform-level quantification for single-cell RNA sequencing, Bioinformatics, 2021;, btab807, https://doi.org/10.1093/bioinformatics/btab807
 
