@@ -2,9 +2,9 @@
 ##############################################################################
 #                           SCASA WRAP
 #             Single Cell Alternative Splicing Analyser
-#             Version V1.0.0
+#             Version V1.0.1
 #             Author: Lu Pan, Trung Nghia Vu, Yudi Pawitan
-#             Last Update: 2021-04-07
+#             Last Update: 2022-03-24
 ##############################################################################
 use strict;
 use warnings;
@@ -20,9 +20,9 @@ use Pod::Usage;
 use Term::ANSIColor qw(:constants);
 
 print BRIGHT_YELLOW, "\n##############################################################\n";
-print BRIGHT_YELLOW, "#\tSCASA V1.0.0\n";
+print BRIGHT_YELLOW, "#\tSCASA V1.0.1\n";
 print BRIGHT_YELLOW, "#\tSINGLE CELL TRANSCRIPT QUANTIFICATION TOOL\n";
-print BRIGHT_YELLOW, "#\tVersion Date: 2021-04-07\n";
+print BRIGHT_YELLOW, "#\tVersion Date: 2022-03-24\n";
 print BRIGHT_YELLOW, "#\tFOR ANY ISSUES, CONTACT: LU.PAN\@KI.SE\n";
 print BRIGHT_YELLOW, "#\thttps://github.com/eudoraleer/scasa/\n";
 print BRIGHT_YELLOW, "##############################################################\n";
@@ -109,10 +109,10 @@ if(($ref eq "") | ($ref eq "NULL")){
 }
 my $output_dir = $root_out;
 my $time = strftime("%Y%m%d%H%M%S", localtime(time));
-if($project_name !~ /.*\_2021[0-9]+$/){
+if($project_name !~ /.*\_202[0-9]+$/){
     $project_name = "$project_name\_$time";
     $output_dir = $root_out."/SCASA_".$project_name."/";
-}elsif($project_name =~ /^SCASA_.*\_2021[0-9]+$/i){
+}elsif($project_name =~ /^SCASA_.*\_202[0-9]+$/i){
     $output_dir = $root_out."/$project_name/";
 }
 $input_dir =~s/\/\//\//g;
