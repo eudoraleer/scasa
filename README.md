@@ -21,6 +21,16 @@ Dependency packages below are needed to run the quick tutorial below for scasa:
 ##### (1) [__Alevin__](https://salmon.readthedocs.io/en/latest/alevin.html)
 
 ##### (2) [__R__](https://www.r-project.org)
+```sh
+# R packages needed (they will be automatically installed by scasa provided that enough permission is given to install R packages under default R library directory):
+library(GenomicFeatures)
+library(Biostrings)
+library(polyester)
+library(foreach)
+library(doParallel)
+library(data.table)
+library(plyr)
+```
 
 After dependency packages are installed:
 
