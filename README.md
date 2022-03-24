@@ -22,7 +22,7 @@ Dependency packages below are needed to run the quick tutorial below for scasa:
 
 ##### (2) [__R__](https://www.r-project.org)
 ```sh
-# R packages needed (they will be automatically installed by scasa provided enough permission is given to install R packages under default R library directory):
+# R packages needed (they will be automatically installed by scasa provided that enough permission is given to install R packages under default R library directory):
 library(GenomicFeatures)
 library(Biostrings)
 library(polyester)
