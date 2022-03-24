@@ -306,7 +306,7 @@ if($to_align eq "YES"){
     my $fastq_len = scalar @fastq_files;
     my @input_fastqs = ();
     if($samplesheet ne "NULL"){
-    open (SAMPLESHEET, "<$samplesheet" ) or die "Unable to open $samplesheet\n";
+    open SAMPLESHEET, "<$samplesheet" or die "Unable to open $samplesheet\n";
     while(my $a = <SAMPLESHEET>){
     chomp $a;
     my $current_fastqs =~s/,|\t|\s+/ /g;
@@ -335,7 +335,7 @@ if($to_align eq "YES"){
     
     $pid_path = $log_dir."scasa.align.$time.pid";
     my $align_all = $log_dir."scasa.$project_name.alignment.all.sh";
-    open (RUNALL, "\>$align_all") or die "Unable to open $align_all\n";
+    open RUNALL, ">$align_all" or die "Unable to open $align_all\n";
     print RUNALL "#!/usr/bin/env bash\n";
 
     foreach my $i(@input_fastqs){
@@ -360,7 +360,7 @@ if($to_align eq "YES"){
     }
         
     print RUNALL "sh $align_script & echo \$\! >> $pid_path\n";
-    open (ALIGN, "\>$align_script") or die "Unable to open $align_all\n";
+    open ALIGN, ">$align_script" or die "Unable to open $align_all\n";
     print ALIGN "#!/usr/bin/env bash\n";
     print ALIGN "cd $input_dir\n";
     print ALIGN "echo \"Begin alignment for sample $current_name..\"\n";
@@ -411,7 +411,7 @@ if($to_quant eq "YES"){
 	print "Scasa quantification has started..\n";
 	$pid_path = $log_dir."scasa.quant.$time.pid";
 	my $quant_all = $log_dir."scasa.$project_name.quant.all.sh";
-	open (RUNALL, "\>$quant_all") or die "Unable to open $quant_all\n";
+	open RUNALL, ">$quant_all" or die "Unable to open $quant_all\n";
 	print RUNALL "#!/usr/bin/env bash\n";
 	my $quant_script = "";
 
@@ -454,14 +454,16 @@ if($to_quant eq "YES"){
         }
 	$quant_script = $log_dir."scasa.$project_name.$i.quant.sh";
 	print RUNALL "sh $quant_script & echo \$\! >> $pid_path\n";
-	open (QUANT, "\>$quant_script") or die "Unable to open $quant_all\n";
+	open QUANT, ">$quant_script" or die "Unable to open $quant_all\n";
 	print QUANT "#!/usr/bin/env bash\n";
 	print QUANT "echo \"Begin Scasa quantification for sample $i..\"\n";
         if($mapper eq "salmon alevin"){
             $current_name = "$align_out/$i\_alignout/alevin/bfh.txt";
+            $current_name =~ s/_alignout_alignout/_alignout/g;
 	print QUANT "Rscript $scasa_quant_script11 $current_name $current_out $num_threads 1>$log_dir/$project_name.batch_quant.step1.o\n";
         }elsif ($mapper eq "kallisto bus"){
             $current_name = "$align_out/$i\_alignout/output.correct.sort.bus.txt";
+            $current_name =~ s/_alignout_alignout/_alignout/g;
             # Current lib.size threshold is > 200 per cell
             print QUANT "Rscript $scasa_quant_script12 $current_name $current_out 200 1>$log_dir/$project_name.batch_quant.step1.o\n";
         }
