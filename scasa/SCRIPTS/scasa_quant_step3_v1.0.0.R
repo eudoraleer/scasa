@@ -17,8 +17,8 @@ for (i in 1:length(args)){
   if (res[1]=="txgroup") txgroup=as.character(res[2])
 }
 
-isoFn = paste(workdir,"/scasa_isoform_expression.RData",sep = "")
-load(isoFn)
+isoFn = paste(workdir,"/scasa_isoform_counts.RDS",sep = "")
+isoform_count = readRDS(isoFn)
 load(txgroup)
 
 parasum = function(tx, count_isoform) {
@@ -46,8 +46,10 @@ scasa_genemat = function(scasa_iso, txmap)
 }
 
 gene_count=scasa_genemat(isoform_count,genes.tx.map.all.final)
-
-save(gene_count,file=paste(workdir,"/scasa_gene_expression.RData", sep = ""))
+print("Done with gene count quantification!")
+print("Generating raw gene count output..")
+saveRDS(gene_count,file=paste(workdir,"/scasa_gene_counts.RDS", sep = ""))
 write.table(gene_count, paste(workdir,"/scasa_gene_expression.txt",sep = ""), quote = F, row.names = T, sep = "\t")
-print("Estimate gene expression : done!")
+print("All done!")
+print("Thank you for using Scasa.")
 

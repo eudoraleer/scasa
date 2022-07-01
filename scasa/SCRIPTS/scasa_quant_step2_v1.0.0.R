@@ -165,6 +165,7 @@ rownames(isoform_count)=rnames
 isoform_count=isoform_count[order(rownames(isoform_count)),]
 isoform_count=t(isoform_count)
 isoform_count <- isoform_count[which(rowSums(isoform_count) > 0),]
-save(isoform_count,file=paste(workdir,"/scasa_isoform_expression.RData",sep = ""))
-write.table(isoform_count, paste(workdir,"/scasa_isoform_expression.txt",sep = ""), quote = F, row.names = T, sep = "\t")
-cat("\n Estimate isoform expression : done!")
+print("Generating raw isoform count output..")
+saveRDS(isoform_count,file=paste(workdir,"/scasa_isoform_counts.RDS",sep = ""))
+write.table(isoform_count, paste(workdir,"/scasa_isoform_counts.txt",sep = ""), quote = F, row.names = T, sep = "\t")
+cat("\n Done with isoform quantification!")
