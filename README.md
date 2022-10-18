@@ -57,7 +57,8 @@ wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
 tar xvzf Test_Dataset.tar.gz              
 ```
 
-2. Download the cDNA fasta of [__hg38: refMrna__](https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz?dl=1)
+2. Download the cDNA fasta of [__hg38: refMrna__](https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz)
+#### NOTE: The current pre-built X-maxtrix was built based on this refMrna.fa.gz file (downloaded from ucsc goldenPath - 16Feb2021). There might have slight differences between this pre-built version and other version of hg38-refMrna which can break the running. If you want to other reference annotations, please follow the instruction in the [__wiki__](https://github.com/eudoraleer/scasa/wiki) page to rebuid then replace the X-matrix and other files in scasa/REFERNCE folder.
 
 3. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 ```sh
@@ -140,8 +141,35 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 ##################################################################
 
 ```
-## Real Sample Example on [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset
 
+## An example of using docker to run the test data 
+```sh
+#1) Pull the docker of scasa to use:
+sudo docker pull nghiavtr/scasa:v1.0.1
+
+#2) Download test dataset:
+wget https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz
+tar xvzf Test_Dataset.tar.gz
+
+#3) Download UCSC hg38 cDNA fasta reference:
+wget https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz
+
+#4) Download runScasaDocker.sh:
+wget https://raw.githubusercontent.com/eudoraleer/scasa/main/docker/runScasaDocker.sh
+
+#5) Download docker_params.sh:
+wget https://raw.githubusercontent.com/eudoraleer/scasa/main/docker/docker_params.sh
+
+#6) replace "/path/to/" in the docker_params.sh by the current path
+# Please revise the paths in the docker_params.sh following your project
+istr="/path/to"
+ostr="$PWD"
+eval "sed -i -e 's#"$istr"#"$ostr"#g' docker_params.sh"
+
+#7) Run scasa using docker with the parameter settings in docker_params.sh
+sudo bash runScasaDocker.sh -param docker_params.sh
+```
+## Real Sample Example on [__Bone Marrow Mononuclear Cells__](https://www.ebi.ac.uk/ena/browser/view/PRJNA528319) CITE-seq Dataset
 ```sh
 ##################################################################
 # 1. Download scasa:
