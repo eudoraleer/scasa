@@ -45,7 +45,7 @@ printf "nthreads=${nthreads}\nwhitelist=${whitelist}\nindex=${index}\nindex_dir=
 path=`pwd`
 params_path="${path}/Scasa_temp"
 
-cmd="sudo docker run -it"
+cmd="docker run -it"
 cmd+=" -v ${ref}:/source/referenceDB/refMrna.fa.gz"
 cmd+=" -v ${INPUT}:/source/input"
 cmd+=" -v ${OUTPUT}:/source/output"
