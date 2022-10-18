@@ -142,7 +142,8 @@ scasa --fastq Sample_01_S1_L001_R1_001.fastq,Sample_01_S1_L001_R2_001.fastq \
 
 ```
 
-## An example of using docker to run the test data 
+## Using docker to run scasa
+Using docker can avoid the issues of the installation of the dependent tools and the enviroment. Users need to revise the docker_params.sh to the paths to input and ouput folders and other scasa parameter setting. The scripts below show an example of running docker for the test data above.
 ```sh
 #1) Pull the docker of scasa to use:
 sudo docker pull nghiavtr/scasa:v1.0.1
