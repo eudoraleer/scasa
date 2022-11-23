@@ -86,6 +86,16 @@ cd <SCASA_project_name_timestamp>/2QUANT/<sample_1_quantification_output>/
 ```
 Now that you have learnt how to run scasa!
 
+## Annotation
+In the scasa study, we used the Refseq hg38 for all analysis. This annotation does not contain the transcripts of mitochondria chromosome which are sometimes required for some analyses. Therefore we added the transcripts of the chM from GRCh38 annotation to build a new reference data for scasa.
+
+The annotation can be downloaded here: [__Annotation data for running scasa (alevin mapper) using refseq hg38 with chM__](https://kise-my.sharepoint.com/:u:/r/personal/trungnghia_vu_ki_se/Documents/Shared_folder/Public/scasa_refseq_hg38_chrM.zip?csf=1&web=1&e=b2Iebj)
+Users can use the annotation files and replace the default reference data in scasa to get results with chM.
+
+It is noted that we have not tested scasa for other annotation systems such as ENCODE/ENSEMBL.
+
+For those who want to run scasa for new annotations, some scripts in [__aux folder__](https://github.com/eudoraleer/scasa/tree/main/aux) are helpful to generate Xmatrix and necessary reference data.
+
 ## Scasa Quantification Run Time (Hours)
 
 On Linux CentOs 7, we tested from thread number 1 to 64 for both [__small simulated dataset__](https://www.dropbox.com/s/gsi8x4fshbn0p11/Test_Dataset.tar.gz) (__200 cells, dataset from Step 1, Quick tutorial on scasa__) and for a __larger simulated dataset (3955 cells)__ and below are the runtime information for both simulated datasets in terms of hours:
