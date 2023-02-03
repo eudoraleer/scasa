@@ -58,7 +58,8 @@ tar xvzf Test_Dataset.tar.gz
 ```
 
 2. Download the cDNA fasta of [__hg38: refMrna__](https://www.dropbox.com/s/xoa6yl562a5lv35/refMrna.fa.gz)
-#### NOTE: The current pre-built X-maxtrix was built based on this refMrna.fa.gz file (downloaded from ucsc goldenPath - 16Feb2021). There might have slight differences between this pre-built version and other version of hg38-refMrna which can break the running. If you want to other reference annotations, please follow the instruction in the [__wiki__](https://github.com/eudoraleer/scasa/wiki) page to rebuid then replace the X-matrix and other files in scasa/REFERNCE folder.
+#### NOTE: The current pre-built X-maxtrix was built based on this refMrna.fa.gz file (downloaded from ucsc goldenPath - 16Feb2021). There might have slight differences between this pre-built version and other version of hg38-refMrna which can break the running. 
+#### If you want to other reference annotations, please follow the instruction in the [__wiki__](https://github.com/eudoraleer/scasa/wiki) page and [How-to-run-Scasa-for-a-new-annotation](https://github.com/eudoraleer/scasa/wiki/How-to-run-Scasa-for-a-new-annotation) to rebuid then replace the X-matrix and other files in scasa/REFERENCE folder.
 
 3. Enter the following command to kick start the analysis (set a higher number of threads to enable faster processing):
 ```sh
@@ -92,9 +93,9 @@ In the scasa study, we used the Refseq hg38 for all analysis. This annotation do
 The annotation can be downloaded here: [__Annotation data for running scasa (alevin mapper) using refseq hg38 with chM__](https://kise-my.sharepoint.com/:u:/r/personal/trungnghia_vu_ki_se/Documents/Shared_folder/Public/scasa_refseq_hg38_chrM.zip?csf=1&web=1&e=b2Iebj)
 Users can use the annotation files and replace the default reference data in scasa to get results with chM.
 
-It is noted that we have not tested scasa for other annotation systems such as ENCODE/ENSEMBL.
+It is noted that we have not tested the performances of scasa for other annotation systems such as ENCODE/ENSEMBL.
 
-For those who want to run scasa for new annotations, some scripts in [__aux folder__](https://github.com/eudoraleer/scasa/tree/main/aux) are helpful to generate Xmatrix and necessary reference data.
+For those who want to run scasa for new annotations, some scripts in [__aux folder__](https://github.com/eudoraleer/scasa/tree/main/aux) are helpful to generate Xmatrix and necessary reference data. See more instructions in [How-to-run-Scasa-for-a-new-annotation](https://github.com/eudoraleer/scasa/wiki/How-to-run-Scasa-for-a-new-annotation).
 
 ## Scasa Quantification Run Time (Hours)
 
