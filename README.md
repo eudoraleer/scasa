@@ -90,7 +90,7 @@ Now that you have learnt how to run scasa!
 ## Annotation
 In the scasa study, we used the Refseq hg38 for all analysis. This annotation does not contain the transcripts of mitochondria chromosome which are sometimes required for some analyses. Therefore we added the transcripts of the chM from GRCh38 annotation to build a new reference data for scasa.
 
-The annotation can be downloaded here: [__Annotation data for running scasa (alevin mapper) using refseq hg38 with chM__](https://kise-my.sharepoint.com/:u:/r/personal/trungnghia_vu_ki_se/Documents/Shared_folder/Public/scasa_refseq_hg38_chrM.zip?csf=1&web=1&e=b2Iebj)
+The annotation can be downloaded here: [__Annotation data for running scasa (alevin mapper) using refseq hg38 with chM__](https://kise-my.sharepoint.com/:u:/r/personal/trungnghia_vu_ki_se/Documents/Shared_folder/Public/scasa_refseq_hg38_chrM.zip?csf=1&web=1&e=b2Iebj). The version for Homo_sapiens.GRCh38.106 of ENSEMBL can be found in [folder Anno](https://github.com/eudoraleer/scasa/tree/main/Anno).
 Users can use the annotation files and replace the default reference data in scasa to get results with chM.
 
 It is noted that we have not tested the performances of scasa for other annotation systems such as ENCODE/ENSEMBL.
