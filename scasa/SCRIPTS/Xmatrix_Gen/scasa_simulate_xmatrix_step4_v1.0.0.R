@@ -63,6 +63,15 @@ rawmat=rawmat[pick,]
 pick=which(rawmat$Count >= 2)
 rawmat=rawmat[pick,]
 
+# nghia/24Feb2023: remove noisy eqclasses that read counts contribute too litle to all transcripts (< 0.001)
+txTrueCount=tapply(rawmat$Weight,rawmat$Transcript_ID, sum)
+rawmat$txTrueCount=txTrueCount[rawmat$Transcript_ID]
+rawmat$prop=rawmat$Weight/rawmat$txTrueCount
+rawmat=rawmat[rawmat$prop > 0.0001,] # at least 0.01% reads of transcript belonging to the eqclass
+minProp=tapply(rawmat$prop,rawmat$eqClass,max)
+pick=which(minProp > H_thres) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+rawmat=rawmat[rawmat$eqClass %in% as.integer(names(pick)),]
+
 #reindex
 myeqID=unique(rawmat$eqClass)
 myeqID=sort(myeqID)
