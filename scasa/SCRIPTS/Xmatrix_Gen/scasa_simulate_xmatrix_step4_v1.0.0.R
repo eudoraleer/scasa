@@ -91,9 +91,11 @@ unique(unlist(eqc2tx[eqc]))
 }
 
 
-system.time(NB <- foreach(i=1:length(tx2eqc)) %dopar% fn(i) )  ## about 25sec 
-names(NB) = names(tx2eqc)
+#system.time(NB <- foreach(i=1:length(tx2eqc)) %dopar% fn(i) )  ## about 25sec 
+#names(NB) = names(tx2eqc)
 
+NB=lapply(tx2eqc,function(x) unique(unlist(eqc2tx[x])))
+          
 ### build transcript clusters - new codes
 
 #convert name of tx to index
