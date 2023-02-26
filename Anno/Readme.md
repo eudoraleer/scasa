@@ -4,7 +4,7 @@ This folder contain pre-built X-matrix and relevant files of species
 
 Currently, pre-built X-matrix and relevant files of some species are provided:
 - Drosophila_melanogaster.BDGP6.32.108 from Ensembl: this folder
-- Homo_sapiens.GRCh38.106 from Ensembl can be download [from here](https://kise-my.sharepoint.com/:u:/r/personal/trungnghia_vu_ki_se/Documents/Shared_folder/Public/Homo_sapiens_GRCh38_106_Anno.zip?csf=1&web=1&e=4295ye). 
+ 
 
 ##### It is noted that we have not tested performance of scasa for this annotation
 
