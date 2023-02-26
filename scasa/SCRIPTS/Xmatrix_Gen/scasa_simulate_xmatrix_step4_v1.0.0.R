@@ -63,11 +63,10 @@ rawmat=rawmat[pick,]
 pick=which(rawmat$Count >= 2)
 rawmat=rawmat[pick,]
 
-# nghia/24Feb2023: remove noisy eqclasses that read counts contribute too litle to all transcripts (< 0.001)
+# nghia/24Feb2023: remove noisy eqclasses
 txTrueCount=tapply(rawmat$Weight,rawmat$Transcript_ID, sum)
 rawmat$txTrueCount=txTrueCount[rawmat$Transcript_ID]
 rawmat$prop=rawmat$Weight/rawmat$txTrueCount
-#rawmat=rawmat[rawmat$prop > 0.00001,]
 minProp=tapply(rawmat$prop,rawmat$eqClass,max)
 pick=which(minProp > H_thres) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
 rawmat=rawmat[rawmat$eqClass %in% as.integer(names(pick)),]
@@ -132,6 +131,105 @@ NB2=lapply(NB2,function(x) sort(x))
 TC3=NB
 TC3[names(f1)]=NB2[f1]
 
+############ 
+# nghia/26Feb2023: break down huge matrices to smaller ones by gradually increasing H_thres
+getTC3<-function(matIn){
+    #reindex
+    myeqID=unique(matIn$eqClass)
+    myeqID=sort(myeqID)
+    matchID=match(matIn$eqClass,myeqID)
+    matIn$eqClass=matchID
+    ######
+    tx2eqc = tapply(matIn$eqClass,matIn$Transcript,c)  ## map: tx --> eqClass 
+    a = sapply(tx2eqc, length)
+    #table(a)
+    eqc2tx = tapply(matIn$Transcript, matIn$eqClass,c) ## map: eqClass --> tx
+
+    NB=lapply(tx2eqc,function(x) unique(unlist(eqc2tx[x])))
+
+    #convert name of tx to index
+    txi=seq(length(NB))
+    NBi=NB
+    names(NBi)=txi
+    #map from tx to crp
+    t2c_map=unlist(NBi,use.names=FALSE)
+    t2c_mapi=match(t2c_map,names(NB))
+    t2c_mapi_group=rep(txi, lengths(NBi))
+    NBi2=tapply(t2c_mapi,t2c_mapi_group,c)
+    NBi=NBi2
+
+    f1=sapply(NBi,function(x) min(x))
+    f2=sapply(NBi,function(x) min(f1[x]))
+
+    growTimes=1
+    isOK=FALSE
+    repeat{  
+      f2=sapply(NBi,function(x) min(f1[x]))  
+      difNum=sum(f2!=f1)  
+      growTimes=growTimes+1
+      f1=f2
+      if (difNum==0) isOK=TRUE
+      if (isOK) break();
+    }
+
+    f1=names(NB)[f1]
+    names(f1)=names(NB)
+
+    NB2=tapply(names(f1),f1,c)
+    NB2=lapply(NB2,function(x) sort(x))
+    #create TC3
+    TC3=NB
+    TC3[names(f1)]=NB2[f1]
+
+    return(list(TC3=TC3,NB=NB,eqc2tx=eqc2tx,tx2eqc=tx2eqc,rawmat=matIn))
+  }
+
+len_TC3=lengths(TC3)
+bigTC3=which(len_TC3>500)
+
+if (length(bigTC3) > 0){
+    rmEqSet=NULL
+    H_thres1=H_thres
+    rawmat1=rawmat
+    rawmat1$rawEq=rawmat1$eqClass
+    repeat{
+      if (length(bigTC3) == 0 | H_thres1 > 0.05) break()
+      H_thres1=H_thres1+0.005 #increase 0.005 each time
+      cat("\n",H_thres1)
+      mytx=names(bigTC3)
+      myeq=rawmat1$rawEq[rawmat1$Transcript_ID %in% mytx]
+      myeq=unique(myeq)
+
+      rawmat2=rawmat1[rawmat1$rawEq %in% myeq,]
+      minProp=tapply(rawmat2$prop,rawmat2$rawEq,max)
+      pick=which(minProp <= H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+      rmEqSet=c(rmEqSet,as.integer(names(pick)))
+
+      pick=which(minProp > H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+      rawmat3=rawmat2[rawmat2$rawEq %in% as.integer(names(pick)),]
+
+      res=getTC3(rawmat3)
+      rawmat1=res$rawmat   
+      len_TC3=lengths(res$TC3)
+      bigTC3=which(len_TC3>500)
+      cat("\n",table(len_TC3))
+    }#end of repeat
+
+  #update new raw data
+  if (length(rmEqSet)>0){
+    pick=which(!rawmat$eqClass %in% rmEqSet)
+    rawmat=rawmat[pick,]
+  }
+  res=getTC3(rawmat)
+  rawmat=res$rawmat
+  NB=res$NB
+  TC3=res$TC3
+  eqc2tx=res$eqc2tx
+  tx2eqc=res$tx2eqc
+
+  }#end of if
+
+############
 
 OTC <- sapply(TC3, paste, collapse=' ') # pasted version
 names(OTC) = names(NB)
