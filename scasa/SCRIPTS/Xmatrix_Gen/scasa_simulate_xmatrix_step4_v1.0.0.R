@@ -5,15 +5,20 @@
 #             Version V1.0.0
 #             Step: 4
 #             Author: Trung Nghia Vu, Yudi Pawitan, Lu Pan
-#             Last Update: 2021-04-07
+#             Last Update: 2023-27-02
 ##############################################################################
 
+### Nghia/27Feb2023: 
+# - improve codes to deal with huge X-matrices and too noisy eqclasses
+# - speed up the calculation
 #### build X matrix
 
 eqClassFn="Xmatrix_eqClass.txt"
-H_thres=0.01
+H_thres=0.025
 fout='Xmatrix.RData'
 RsourceFn="Rsource.R"
+H_thres_min=0.0
+targetsize=1000
 
 args = commandArgs(trailingOnly=TRUE)
 cat("\nNumber of arguments: ",length(args))
@@ -23,6 +28,7 @@ for (i in 1:length(args)){
   res=unlist(strsplit(args[i],"="))
   if (res[1]=="in") eqClassFn=res[2]
   if (res[1]=="H") H_thres=as.double(res[2])
+  if (res[1]=="s") targetsize=as.double(res[2])
   if (res[1]=="out") fout=res[2]
   if (res[1]=="Rsource") RsourceFn=res[2]
   if (res[1]=="ncore") core=res[2]
@@ -32,7 +38,8 @@ for (i in 1:length(args)){
 cat("\n buildCRP.R will run with the following parameter setting: ")
 cat("\n ----------------------------------------------------- ")
 cat("\n in: ",eqClassFn)
-cat("\n H: ",H_thres)
+cat("\n H (H threshold): ",H_thres)
+cat("\n s (target to break down a huge matrix with more than s isoforms): ",targetsize)
 cat("\n out: ",fout)
 cat("\n Rsource: ",RsourceFn)
 cat("\n ncore: ",core)
@@ -40,13 +47,14 @@ cat("\n ----------------------------------------------------- ")
 
 source(RsourceFn)
 
-packages <- c("foreach","doParallel")
+packages <- c("foreach","doParallel","data.table")
 
 if(!all(packages%in% rownames(installed.packages()))){
   needed <- packages[which(!packages %in% rownames(installed.packages()))]
   lapply(needed, install.packages, repos = "https://cran.r-project.org")
 }
 
+library(data.table)
 library(foreach)
 library(doParallel)
 # core = detectCores()
@@ -67,8 +75,10 @@ rawmat=rawmat[pick,]
 txTrueCount=tapply(rawmat$Weight,rawmat$Transcript_ID, sum)
 rawmat$txTrueCount=txTrueCount[rawmat$Transcript_ID]
 rawmat$prop=rawmat$Weight/rawmat$txTrueCount
+rawmat$propEq=rawmat$Count/rawmat$txTrueCount
 minProp=tapply(rawmat$prop,rawmat$eqClass,max)
-pick=which(minProp > H_thres) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+minPropEq=tapply(rawmat$propEq,rawmat$eqClass,max)
+pick=which(minProp > H_thres_min | minPropEq > H_thres_min) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
 rawmat=rawmat[rawmat$eqClass %in% as.integer(names(pick)),]
 
 #reindex
@@ -185,39 +195,73 @@ getTC3<-function(matIn){
   }
 
 len_TC3=lengths(TC3)
-bigTC3=which(len_TC3>500)
+bigTC3=which(len_TC3>targetsize)
 
 if (length(bigTC3) > 0){
     rmEqSet=NULL
-    H_thres1=H_thres
+    rmIdSet=NULL
+    H_thres1=H_thres_min
+
+    rawmat$rawEq=rawmat$eqClass
+    rawmat$rawId=c(1:nrow(rawmat))
+    eqSize=tapply(rawmat$Weight,rawmat$eqClass, length)
+    rawmat$eqSize=eqSize[rawmat$eqClass]
     rawmat1=rawmat
-    rawmat1$rawEq=rawmat1$eqClass
+
     repeat{
-      if (length(bigTC3) == 0 | H_thres1 > 0.05) break()
+      if (length(bigTC3) == 0 | H_thres1 >= H_thres) break()
       H_thres1=H_thres1+0.005 #increase 0.005 each time
       cat("\n",H_thres1)
       mytx=names(bigTC3)
       myeq=rawmat1$rawEq[rawmat1$Transcript_ID %in% mytx]
+      #myeq=rawmat1$rawEq[rawmat1$Transcript %in% mytx]
       myeq=unique(myeq)
 
       rawmat2=rawmat1[rawmat1$rawEq %in% myeq,]
       minProp=tapply(rawmat2$prop,rawmat2$rawEq,max)
-      pick=which(minProp <= H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+      minPropEq=tapply(rawmat2$propEq,rawmat2$rawEq,max)
+
+      pick=which(minProp <= H_thres1 & minPropEq <= H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+#      pick=which(minProp <= H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+
       rmEqSet=c(rmEqSet,as.integer(names(pick)))
 
-      pick=which(minProp > H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+      pick=which(minProp > H_thres1 | minPropEq > H_thres1) #excluded if reads of individual transcripts in the eqclass contributes < H_thres
+#      pick=which(minProp > H_thres1)
       rawmat3=rawmat2[rawmat2$rawEq %in% as.integer(names(pick)),]
 
+      #27Feb2023/Nghia: break "weak" links by excluding high-degree isoforms (have too many neighbours) from big eqclasses (size > 50)
+      rmID=NULL
+      p=which(lengths(NB) > 50)
+      for (i in 1:length(p)){
+        pick=which(rawmat3$Transcript == names(p)[i])
+        x=rawmat3[pick,]
+        pick2=which(x$propEq < H_thres1 & x$Weight==0 & x$eqSize>50)
+        rmID=c(rmID,pick[pick2])
+
+        pick3=which(x$prop < H_thres1 & x$eqSize>50)
+        rmID=c(rmID,pick[pick3])
+      }
+      if (length(rmID)>0){
+        rmIdSet=c(rmIdSet,rawmat3$rawId[rmID])
+        rawmat3=rawmat3[-rmID,]
+      }
+      cat("\n rmID ",length(rmID))
       res=getTC3(rawmat3)
       rawmat1=res$rawmat   
       len_TC3=lengths(res$TC3)
-      bigTC3=which(len_TC3>500)
+      NB=res$NB
+      bigTC3=which(len_TC3>targetsize)
       cat("\n",table(len_TC3))
     }#end of repeat
 
-  #update new raw data
+  #update new rawmat
   if (length(rmEqSet)>0){
     pick=which(!rawmat$eqClass %in% rmEqSet)
+    rawmat=rawmat[pick,]
+  }
+  if (length(rmIdSet)>0){
+    pick=which(!rawmat$rawId %in% rmIdSet)
     rawmat=rawmat[pick,]
   }
   res=getTC3(rawmat)
@@ -243,69 +287,84 @@ names(OTC) = clust
 
 #get CRP count
 CRPCOUNT=list()
-system.time(
-  #CRPCOUNT <- foreach(i=1:length(OTC)) %dopar%{
-  for (i in 1:length(OTC)){
-    cat(" ",i)
-    #myOTC=unlist(OTC[i])
-    myOTC=OTC[[i]]
-    names(myOTC)=NULL
-    #get binary codes of eqc
-    myeqc=unique(unlist(sapply(myOTC,function(x) tx2eqc[x])))
-    #eqc2tx[myeqc]
-    bcode=lapply(eqc2tx[myeqc],function(x) as.integer(!is.na(match(myOTC,x))))
-    #bcode
-    
-    #get corresponding count - new codes
-    pick=which(rawmat$eqClass %in% myeqc)
-    countname=paste(rawmat$Transcript[pick],rawmat$eqClass[pick],sep="__")
-    count=rawmat$Weight[pick] 
-    myname=expand.grid(myOTC,myeqc)
-    myname=paste(myname[,1],myname[,2],sep="__")
-    myCount=rep(0,length(myname))
-    matchID=match(countname,myname)
-    myCount[matchID]=count
-    
-    #create TC count matrix
-    mycrpCount=matrix(unlist(myCount),nrow=length(bcode),ncol=length(myOTC),byrow=TRUE)
-    colnames(mycrpCount)=myOTC
-    rownames(mycrpCount)=sapply(bcode, function(x) paste(x,collapse=""))
-    
-    #sum-up if bcodes of rows are the same - 07 Aug 2020 Nghia:
-    pick=which(duplicated(rownames(mycrpCount)))
-    if (length(pick)>0){
-      mycrpCount1=mycrpCount[-pick,drop=FALSE,]
-      mycrpCount2=mycrpCount[pick,drop=FALSE,]
-      for (myi in 1:nrow(mycrpCount2)){
-        myj=rownames(mycrpCount1) %in% rownames(mycrpCount2)[myi]
-        mycrpCount1[myj,]=mycrpCount1[myj,]+mycrpCount2[myi,]
-      }
-      mycrpCount=mycrpCount1
+#system.time(
+#CRPCOUNT <- foreach(i=1:length(OTC)) %dopar%{
+for (i in 1:length(OTC)){
+  if (i %% 100 == 0) cat(" ",i)
+  #myOTC=unlist(OTC[i])
+  myOTC=sort(OTC[[i]])
+  names(myOTC)=NULL
+  #get binary codes of eqc
+  #myeqc=unique(unlist(sapply(myOTC,function(x) tx2eqc[x])))
+  myeqc=unique(unlist(tx2eqc[myOTC]))
+  #eqc2tx[myeqc]
+  bcode=lapply(eqc2tx[myeqc],function(x) as.integer(!is.na(match(myOTC,x))))
+  #bcode
+
+  #get corresponding count - new codes
+  pick=which(rawmat$eqClass %in% myeqc)
+
+#  countname=paste(rawmat$Transcript[pick],rawmat$eqClass[pick],sep="__")
+#  count=rawmat$Weight[pick] 
+#  myname=expand.grid(myOTC,myeqc)
+#  myname=paste(myname[,1],myname[,2],sep="__")
+#  myCount=rep(0,length(myname))
+#  matchID=match(countname,myname)
+#  myCount[matchID]=count
+
+  #create TC count matrix
+#  mycrpCount=matrix(unlist(myCount),nrow=length(bcode),ncol=length(myOTC),byrow=TRUE)
+#  colnames(mycrpCount)=myOTC
+#  rownames(mycrpCount)=sapply(bcode, function(x) paste(x,collapse=""))
+
+  
+  #27Feb2023/Nghia: faster with data.table
+  x=data.table(rawmat[pick,])
+  y=dcast(x,eqClass ~ Transcript_ID,fill=0,value.var="Weight")
+  y=y[match(names(bcode),y$eqClass),]
+  #rownames(y)=sapply(bcode, function(x) paste(x,collapse=""))
+  y[,1:=NULL]
+  mycrpCount=as.matrix(y)
+  rownames(mycrpCount)=sapply(bcode, function(x) paste(x,collapse=""))
+
+
+  #sum-up if bcodes of rows are the same - 07 Aug 2020 Nghia:
+  pick=which(duplicated(rownames(mycrpCount)))
+  if (length(pick)>0){
+    mycrpCount1=mycrpCount[-pick,drop=FALSE,]
+    mycrpCount2=mycrpCount[pick,drop=FALSE,]
+    for (myi in 1:nrow(mycrpCount2)){
+      myj=rownames(mycrpCount1) %in% rownames(mycrpCount2)[myi]
+      mycrpCount1[myj,]=mycrpCount1[myj,]+mycrpCount2[myi,]
     }
-    
-    if (nrow(mycrpCount)>1){ # if there are more than 1 row
-      mycrpCount=mycrpCount[order(rownames(mycrpCount)),]
-      #check if duplicated rownames
-      repID=table(rownames(mycrpCount))
-      repID=repID[which(repID>1)]
-      if (length(repID)>0){
-        rmID=which(rownames(mycrpCount) %in% names(repID))
-        sumcrpCount=NULL
-        for (j in 1:length(repID)){
-          sumcrpCount=rbind(sumcrpCount,colSums(mycrpCount[rownames(mycrpCount) %in% names(repID)[j],]))
-        }
-        rownames(sumcrpCount)=names(repID)
-        mycrpCount=mycrpCount[-rmID,]
-        mycrpCount=rbind(mycrpCount,sumcrpCount)
-        mycrpCount=mycrpCount[order(rownames(mycrpCount)),]
-        mycrpCount=as.matrix(mycrpCount)
-      }
-    }
-    
-    #  return(mycrpCount)
-    CRPCOUNT[[i]]=mycrpCount
+    mycrpCount=mycrpCount1
   }
-)
+  
+  if (nrow(mycrpCount)>1){ # if there are more than 1 row
+    mycrpCount=mycrpCount[order(rownames(mycrpCount)),]
+    #check if duplicated rownames
+#    repID=table(rownames(mycrpCount))
+#    repID=repID[which(repID>1)]
+    repID=which(duplicated(rownames(mycrpCount)))
+    names(repID)=rownames(mycrpCount)[repID]
+    if (length(repID)>0){
+      rmID=which(rownames(mycrpCount) %in% names(repID))
+      sumcrpCount=NULL
+      for (j in 1:length(repID)){
+        sumcrpCount=rbind(sumcrpCount,colSums(mycrpCount[rownames(mycrpCount) %in% names(repID)[j],]))
+      }
+      rownames(sumcrpCount)=names(repID)
+      mycrpCount=mycrpCount[-rmID,]
+      mycrpCount=rbind(mycrpCount,sumcrpCount)
+      mycrpCount=mycrpCount[order(rownames(mycrpCount)),]
+      mycrpCount=as.matrix(mycrpCount)
+    }
+  }
+  
+#  return(mycrpCount)
+  CRPCOUNT[[i]]=mycrpCount
+  }
+#)
 
 #### now compute CRP, use H_thres (default=0) to filter out too low proportion sharing between two transcripts
 CRP=list()
