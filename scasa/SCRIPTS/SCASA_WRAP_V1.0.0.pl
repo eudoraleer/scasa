@@ -4,7 +4,7 @@
 #             Single Cell Alternative Splicing Analyser
 #             Version V1.0.1
 #             Author: Lu Pan, Trung Nghia Vu, Yudi Pawitan
-#             Last Update: 2022-03-24
+#             Last Update: 2023-02-28
 ##############################################################################
 use strict;
 use warnings;
@@ -261,7 +261,7 @@ if($createxmatrix eq "YES"){
         system("Rscript $scasa_xmatrix_script32 $xmatrix_dir/simulation_sampling_bus_output/ $xmatrix_dir/TxCellID_mapping.RData $xmatrix_dir");
     }
     
-    system("Rscript $scasa_xmatrix_script4 in=$xmatrix_dir/Xmatrix_eqClass.txt H=0.01 out=$xmatrix_dir/Xmatrix.RData Rsource=$scasa_Rsource ncore=$num_threads");
+    system("Rscript $scasa_xmatrix_script4 in=$xmatrix_dir/Xmatrix_eqClass.txt out=$xmatrix_dir/Xmatrix.RData Rsource=$scasa_Rsource ncore=$num_threads");
     $xmatrix = "$xmatrix_dir/Xmatrix.RData";
 }
 
