@@ -1,16 +1,33 @@
-## nghiavtr/06July2022: generate mapping tx to gene
-# - input: cdna and gtf file
+## nghiavtr/06Sep2023: generate mapping tx to gene for GENCODE, ENSEMBL and other annotations
+# - input: cdna file, gtf file, and anntype (optional)
 # - ouput: sqlite, txp2gene and cdnaout which contain only common transcripts between gtf and cdna
-# - command: Rscript gen_tx2gene.R cdna=Homo_sapiens.GRCh38.cdna.all.fa gtf=Homo_sapiens.GRCh38.106.gtf sqlite=Homo_sapiens.GRCh38.106.sqlite cdnaout=Homo_sapiens.GRCh38.106.cdna.remain.fa out=txp2gene_GRCh38.106.tsv
+# - command: Rscript gen_tx2gene.R cdna=Homo_sapiens.GRCh38.cdna.all.fa gtf=Homo_sapiens.GRCh38.106.gtf anntype=ENSEMBL sqlite=Homo_sapiens.GRCh38.106.sqlite cdnaout=Homo_sapiens.GRCh38.106.cdna.remain.fa out=txp2gene_GRCh38.106.tsv
+
+### Nghia/12Sep2023: 
+# - revise to process GENCODE annotation
+####
+
+anntype="ENSEMBL"
 args = commandArgs(trailingOnly=TRUE)
 for (i in 1:length(args)){
 	res=unlist(strsplit(args[i],"="))
 	if (res[1]=="cdna") cdnaFn=res[2]
+	if (res[1]=="anntype") anntype=res[2]
 	if (res[1]=="gtf") gtfFn=res[2]
 	if (res[1]=="sqlite") sqliteFn=res[2]
 	if (res[1]=="cdnaout") cdnaoutFn=res[2]
 	if (res[1]=="out") outFn=res[2]
 }
+
+cat("\n------------------------------")
+cat("\n Running with the following parameter settings: ")
+	cat("\n cdna=",cdnaFn)
+	cat("\n anntype (ENSEMBL (default), GENCODE, or OTHER)=",anntype)
+	cat("\n gtf=",gtfFn)
+	cat("\n sqlite=",sqliteFn)
+	cat("\n cdnaout=",cdnaoutFn)
+	cat("\n out=",outFn)
+cat("\n------------------------------")
 
 suppressMessages(library("GenomicFeatures"))
 suppressMessages(library("Biostrings"))
@@ -27,10 +44,14 @@ genes.tx.all = suppressMessages(suppressWarnings(select(anntxdb, keys=names(gene
 
 #read fasta file
 fasta_tx = readDNAStringSet(cdnaFn)
+
 #get tx in cdna
-cdna_tx=sapply(names(fasta_tx),function(x) unlist(strsplit(x," "))[1])
+if (anntype=="ENSEMBL") cdna_tx=sapply(names(fasta_tx),function(x) unlist(strsplit(x," "))[1])
+if (anntype=="GENCODE") cdna_tx=sapply(names(fasta_tx),function(x) unlist(strsplit(x,"\\|"))[1])
 names(cdna_tx)=NULL
-cdna_tx=sapply(cdna_tx,function(x) unlist(strsplit(x,"\\."))[1])
+
+if (anntype=="ENSEMBL")	cdna_tx=sapply(cdna_tx,function(x) unlist(strsplit(x,"\\."))[1]) #remove the version of the tx
+
 #get the concordant tx
 pick=genes.tx.all$TXNAME %in% cdna_tx  
 tx2gene=genes.tx.all[pick,]
