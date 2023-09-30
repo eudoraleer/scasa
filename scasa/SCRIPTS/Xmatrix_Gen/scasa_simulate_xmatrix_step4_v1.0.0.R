@@ -5,8 +5,11 @@
 #             Version V1.0.0
 #             Step: 4
 #             Author: Trung Nghia Vu, Yudi Pawitan, Lu Pan
-#             Last Update: 2023-27-02
+#             Last Update: 2023-30-09
 ##############################################################################
+
+### Nghia/30Sep2023: 
+# - fix the bug when building CRP from CRPCOUNT
 
 ### Nghia/27Feb2023: 
 # - improve codes to deal with huge X-matrices and too noisy eqclasses
@@ -367,14 +370,52 @@ for (i in 1:length(OTC)){
 #)
 
 #### now compute CRP, use H_thres (default=0) to filter out too low proportion sharing between two transcripts
+cat("\n Computing CRP ... ")
 CRP=list()
 for (k in 1:length(CRPCOUNT)){
+  if (k %% 100 == 0) cat(" ",k)
   mycrpCount=CRPCOUNT[[k]]
   
   #fix the bug when colSums(mycrpCount)==0 
   txSum=colSums(mycrpCount)
-  mycrpCount=mycrpCount[,which(txSum>0),drop=FALSE]
-  if(ncol(mycrpCount)==0) next(); 
+
+  ##30Sep2023/Nghia: Fix bugs when some columns are excluded - this rarely happens
+  if(length(txSum>0)==0) next();
+
+  if (length(txSum==0)>0){
+    #exclude ones with txSum==0
+    p=which(txSum>0)
+    #update matrix
+    mycrpCount=mycrpCount[,p,drop=FALSE]
+    #update bcode
+    bcode=sapply(rownames(mycrpCount),function(x){
+      x1=strsplit(x,"")[[1]]
+      x2=x1[p]
+      x3=paste(x2,collapse="")
+      return(x3)
+    })
+    names(mycrpCount)=NULL
+    rownames(mycrpCount)=bcode
+
+    #check if duplicated rownames
+    repID=which(duplicated(rownames(mycrpCount)))
+    names(repID)=rownames(mycrpCount)[repID]
+    if (length(repID)>0){
+      rmID=which(rownames(mycrpCount) %in% names(repID))
+      sumcrpCount=NULL
+      for (j in 1:length(repID)){
+        sumcrpCount=rbind(sumcrpCount,colSums(mycrpCount[rownames(mycrpCount) %in% names(repID)[j],]))
+      }
+      rownames(sumcrpCount)=names(repID)
+      mycrpCount=mycrpCount[-rmID,]
+      mycrpCount=rbind(mycrpCount,sumcrpCount)
+      mycrpCount=mycrpCount[order(rownames(mycrpCount)),]
+      mycrpCount=as.matrix(mycrpCount)
+    }
+
+  }
+
+  #if(ncol(mycrpCount)==0) next(); 
   
   #remove eqc with too small proportions - this is used for the clustering, too small proportions should not be consisdered as an real connection between two/more transcripts
   y=t(t(mycrpCount)/colSums(mycrpCount))
@@ -388,7 +429,6 @@ for (k in 1:length(CRPCOUNT)){
   #decode eq in x1
   myclust=rep(1,ncol(x1))
   
-  #divide a CRP into smaller CRPs if necessary - not suitable for 10x genomics data
   ### get this back
   myclust=c(1:ncol(x1))
   for (i in 1:nrow(x1)){
