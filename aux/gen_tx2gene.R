@@ -2,6 +2,9 @@
 # - input: cdna file, gtf file, and anntype (optional)
 # - ouput: sqlite, txp2gene and cdnaout which contain only common transcripts between gtf and cdna
 # - command: Rscript gen_tx2gene.R cdna=Homo_sapiens.GRCh38.cdna.all.fa gtf=Homo_sapiens.GRCh38.106.gtf anntype=ENSEMBL sqlite=Homo_sapiens.GRCh38.106.sqlite cdnaout=Homo_sapiens.GRCh38.106.cdna.remain.fa out=txp2gene_GRCh38.106.tsv
+## NOTE: In this script,  we remove the sequences of all transcripts (in cdna file) which are not found in the gtf file.
+## We observe that they are mainly non-coding transcripts (NR_*). 
+## If they are your interesting transcripts, you would modify the code in this file to provide the corresponding gene names for those transcripts.
 
 ### Nghia/12Sep2023: 
 # - revise to process GENCODE annotation
@@ -65,8 +68,13 @@ tx.export.fasta=fasta_tx
 names(tx.export.fasta)=cdna_tx
 tx.export.fasta=tx.export.fasta[p]
 names(tx.export.fasta)=paste0(names(tx.export.fasta)," ",genes.tx.all$GENEID[match(names(tx.export.fasta),genes.tx.all$TXNAME)])
-
 writeXStringSet(tx.export.fasta, cdnaoutFn)
+
+tx.export.fasta=fasta_tx
+names(tx.export.fasta)=cdna_tx
+tx.export.fasta=tx.export.fasta[!p]
+names(tx.export.fasta)=paste0(names(tx.export.fasta)," ","Unknown-Gene-Name")
+writeXStringSet(tx.export.fasta, "tx_removed.fa")
 
 
 write.table(tx2gene,file=outFn, col.names=FALSE, row.names=FALSE, quote=FALSE,sep="\t")
