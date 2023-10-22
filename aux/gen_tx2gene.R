@@ -46,6 +46,7 @@ genes.tx.all = suppressMessages(suppressWarnings(select(anntxdb, keys=names(gene
 fasta_tx = readDNAStringSet(cdnaFn)
 
 #get tx in cdna
+cdna_tx=sapply(names(fasta_tx),function(x) unlist(strsplit(x," "))[1])
 if (anntype=="ENSEMBL") cdna_tx=sapply(names(fasta_tx),function(x) unlist(strsplit(x," "))[1])
 if (anntype=="GENCODE") cdna_tx=sapply(names(fasta_tx),function(x) unlist(strsplit(x,"\\|"))[1])
 names(cdna_tx)=NULL
