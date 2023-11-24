@@ -4,7 +4,7 @@ This folder contains pre-built X-matrix and relevant files of species
 
 Currently, pre-built X-matrix and relevant files of some species are provided:
 - Drosophila_melanogaster.BDGP6.32.108 from Ensembl: this folder (https://github.com/eudoraleer/scasa/tree/main/Anno)
-- Homo_sapiens.GRCh38.106 from Ensembl can be downloaded [from here](https://drive.google.com/file/d/1q6Y5WRHjj_p1wCpW673GXl4nnf38Juni/view?usp=sharing).
+- Homo_sapiens.GRCh38.106 from Ensembl can be downloaded [from here](https://drive.google.com/file/d/1q6Y5WRHjj_p1wCpW673GXl4nnf38Juni/view?usp=sharing). The version for the data with read length of 150bp is [from here](https://drive.google.com/file/d/1XBYqPApap04WYBfKETcmnjV7S0DAjHIS/view?usp=sharing).
 - Homo_sapiens_GENCODE_42 version 42 can be downloaded [from here](https://drive.google.com/file/d/1GfBE-eCpOtZmlyQm-8hgD1GIXgjcx9A-/view?usp=sharing).
   
 ##### It is noted that we have not tested the performance of scasa for those annotations
